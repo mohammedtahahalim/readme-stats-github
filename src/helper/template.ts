@@ -14,7 +14,7 @@ export default function template(data: GetData, uiConfig: UiConfig): string {
     totalIssues,
     closedIssues,
   } = content[lang];
-  var card = `<svg width="495" height="195" dir=${getDir(lang)} viewBox="0 0 495 195" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  var card = `<svg width="495" height="195" dir="${getDir(lang)}" viewBox="0 0 495 195" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <style>
         .leftdiv {
             animation: fadeH 0.7s ease-in-out forwards;
