@@ -1,6 +1,8 @@
 import millify from "millify";
 import basicFetch from "./basicFetch";
 import repositoryFetch from "./repositoryFetch";
+import { TLang } from "../langs/allowedLangs";
+import { convertNumber } from "./convertNumber";
 const base64ImageFetcher = require("node-base64-image");
 
 export type GetData = {
@@ -17,8 +19,9 @@ export type GetData = {
   total_contributions: string | number;
 };
 
-async function getData(username: string): Promise<GetData> {
+async function getData(username: string, lang: TLang = "en"): Promise<GetData> {
   let user = await basicFetch(username);
+
   let totalRepoPages = Math.ceil(user.repositories.totalCount / 100);
   let userRepositories = await repositoryFetch(username, totalRepoPages);
 
@@ -30,18 +33,25 @@ async function getData(username: string): Promise<GetData> {
     pic: await base64ImageFetcher.encode(`${user.avatarUrl}&s=200`, {
       string: true,
     }),
-    public_repos: millify(user.repositories.totalCount),
-    followers: millify(user.followers.totalCount),
-    following: millify(user.following.totalCount),
-    total_stars: millify(userRepositories.stars),
-    total_forks: millify(userRepositories.forks),
-    total_issues: millify(
-      user.openedIssues.totalCount + user.closedIssues.totalCount
+    public_repos: convertNumber(millify(user.repositories.totalCount), lang),
+    followers: convertNumber(millify(user.followers.totalCount), lang),
+    following: convertNumber(millify(user.following.totalCount), lang),
+    total_stars: convertNumber(millify(userRepositories.stars), lang),
+    total_forks: convertNumber(millify(userRepositories.forks), lang),
+    total_issues: convertNumber(
+      millify(user.openedIssues.totalCount + user.closedIssues.totalCount),
+      lang,
     ),
-    total_closed_issues: millify(user.closedIssues.totalCount),
-    total_contributions: millify(
-      user.contributionsCollection.restrictedContributionsCount +
-        user.contributionsCollection.totalCommitContributions
+    total_closed_issues: convertNumber(
+      millify(user.closedIssues.totalCount),
+      lang,
+    ),
+    total_contributions: convertNumber(
+      millify(
+        user.contributionsCollection.restrictedContributionsCount +
+          user.contributionsCollection.totalCommitContributions,
+      ),
+      lang,
     ),
   };
 
