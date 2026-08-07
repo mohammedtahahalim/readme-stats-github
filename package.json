@@ -11,9 +11,9 @@
     "node-base64-image": "^2.0.1"
   },
   "scripts": {
-    "dev": "nodemon ./src/withexpress.ts",
+    "dev": "nodemon ./src/index.ts",
     "build": "tsc",
-    "start": "node ./dist/withexpress.js"
+    "start": "node ./dist/index.js"
   },
   "author": "Tuhin Kanti Pal",
   "license": "Apache-2.0",
